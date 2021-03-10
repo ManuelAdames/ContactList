@@ -4,8 +4,9 @@
              x:Class="ContactList.Views.AddUserPage"
              >
         <StackLayout Padding="10">
-            <Entry x:Name="newName" Placeholder="Name"/>
-            <Entry x:Name="newNumber" Placeholder="Number"/>
-        <Button Text="Register" TextColor="White" BackgroundColor="DimGray"/>
+        <Label Style="{StaticResource titleLabelStyle}"/>
+        <Entry x:Name="newName" Placeholder="Name" Text="{Binding Name}"/>
+            <Entry x:Name="newNumber" Placeholder="Number" Text="{Binding Number}"/>
+        <Button Style="{StaticResource buttonStyle}" Command="{Binding RegisterCommand}"/>
     </StackLayout>
 </ContentPage>

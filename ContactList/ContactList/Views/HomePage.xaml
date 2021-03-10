@@ -12,6 +12,7 @@
     <ListView ItemsSource="{Binding Contacts}" 
               HasUnevenRows="True"
               SeparatorColor="Black"
+              Margin="20"
               Footer="">
         
         <ListView.ItemTemplate>
@@ -19,8 +20,8 @@
                 <ViewCell>
                     <controls:ItemView/>
                     <ViewCell.ContextActions>
-                        <MenuItem Text="Delete" Command="{Binding Source={x:Reference homePage}, Path=BindingContext.DeleteCommand}" CommandParameter="{Binding}"/>
                         <MenuItem Text="More" Command="{Binding Source={x:Reference homePage}, Path=BindingContext.MoreCommand}" CommandParameter="{Binding}"/>
+                        <MenuItem Text="Delete" Command="{Binding Source={x:Reference homePage}, Path=BindingContext.DeleteCommand}" CommandParameter="{Binding}"/>
                     </ViewCell.ContextActions>
                 </ViewCell>
             </DataTemplate>

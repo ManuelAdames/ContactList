@@ -16,11 +16,10 @@ namespace ContactList.ViewModels
         public ObservableCollection<Contact> Contacts { get; }
         public ICommand AddCommand { get; }
         public ICommand DeleteCommand { get; }
-        private ICommand MoreCommmand { get; }
-
+        public ICommand MoreCommand { get; }
         public HomeViewModel()
         {
-            MoreCommmand = new Command<Contact>(OnMore);
+            MoreCommand = new Command<Contact>(OnMore);
             AddCommand = new Command(OnAddContact);
             DeleteCommand = new Command<Contact>(OnDeleteContact);
 
@@ -33,27 +32,32 @@ namespace ContactList.ViewModels
 
         private async void OnMore(Contact contact)
         {
-            string option = await App.Current.MainPage.DisplayActionSheet(null, "Canecel", null, "Call +" + contact.Number, "Cancel");
+            string option = await App.Current.MainPage.DisplayActionSheet(null, "Canecl", null, "Call +" + contact.Number, "Edit");
             if (option == "Call +" + contact.Number)
             {
                 try
                 {
                     PhoneDialer.Open(contact.Number);
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     await App.Current.MainPage.DisplayAlert("No se pudo realizar la llamada", "Intentelo mas tarde", "Ok");
                 }
             }
+            else if (option == "Edit") 
+            {
+                int newIndex = Contacts.IndexOf(contact);
+                var result = await App.Current.MainPage.DisplayPromptAsync("Add New Name", "Type Name", "Ok");
+                var phone = await App.Current.MainPage.DisplayPromptAsync("Add New Number", "Type Number", "Ok");
+                Contacts.Remove(contact);
+                Contacts.Add(new Contact(result, phone));
+                int oldIndex = Contacts.Count - 1;
+                Contacts.Move(oldIndex,newIndex);
+            }
         }
         private async void OnAddContact()
         {
-            await App.Current.MainPage.Navigation.PushAsync(new AddUserPage());
-            //var result = await App.Current.MainPage.DisplayPromptAsync("Add Name", "Type Name", "Ok");
-            //var phone = await App.Current.MainPage.DisplayPromptAsync("Add Number", "Type Number", "Ok");
-
-            //Contacts.Add(new Contact(result, phone));
-
+            await App.Current.MainPage.Navigation.PushAsync(new AddUserPage(Contacts));
         }
         private void OnDeleteContact(Contact contact)
         {
