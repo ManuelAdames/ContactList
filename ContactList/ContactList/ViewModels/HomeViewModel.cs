@@ -25,14 +25,12 @@ namespace ContactList.ViewModels
 
             Contacts = new ObservableCollection<Contact>
             {
-                //new Contact ("Maicol Martinez", "8095080000"),
-                //new Contact ("Jose", "6784390294")
             };
         }
 
         private async void OnMore(Contact contact)
         {
-            string option = await App.Current.MainPage.DisplayActionSheet(null, "Canecl", null, "Call +" + contact.Number, "Edit");
+            string option = await App.Current.MainPage.DisplayActionSheet(null, "Cancel", null, "Call +" + contact.Number, "Edit");
             if (option == "Call +" + contact.Number)
             {
                 try
